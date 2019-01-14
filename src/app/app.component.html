@@ -5,8 +5,30 @@
   </h1>
 </div>
 
-Default ngx-quill
-<quill-editor></quill-editor>
+<!-- Default ngx-quill
+<quill-editor customToolbarPosition="bottom">
+  <div quill-editor-toolbar>
+    <span class="ql-formats">
+      <button class="ql-bold" [title]="'Bold'"></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-align" [title]="'Aligment'">
+        <option selected></option>
+        <option value="center"></option>
+        <option value="right"></option>
+        <option value="justify"></option>
+      </select>
+      <select class="ql-align" [title]="'Aligment2'">
+        <option selected></option>
+        <option value="center"></option>
+        <option value="right"></option>
+        <option value="justify"></option>
+      </select>
+    </span>
+  </div>
+
+
+</quill-editor>
 
 <p>Material quill</p>
 
@@ -14,4 +36,17 @@ Default ngx-quill
 <mat-form-field style="width: 100%">
   <rich-editor formControlName="control" placeholder="Beschreibung Deutsch"></rich-editor>
 </mat-form-field>
+</div> -->
+
+<!-- <div [formGroup]="myGroup" style="width: 100%">
+  <mat-form-field style="width: 100%">
+    <quill-editor formControlName="control" placeholder="Beschreibung Deutsch"></quill-editor>
+  </mat-form-field>
+</div> -->
+
+<div fxLayout="row">
+<div fxFlex="50">hallo1</div>
+<div fxFlex="50">hallo2</div>
+
 </div>
+<selection-grid></selection-grid>

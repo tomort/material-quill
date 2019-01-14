@@ -79,6 +79,8 @@ export class RichEditorComponent  implements OnInit, DoCheck, ControlValueAccess
   ngControl;
   touched;
 
+  
+
   controlType = 'richeditor';
 
   errorState = false;
@@ -116,8 +118,16 @@ export class RichEditorComponent  implements OnInit, DoCheck, ControlValueAccess
     }
 
     let editor = this.container.nativeElement.querySelector('#editor')
+    let toolbar = this.container.nativeElement.querySelector('#toolbar')
 
-    this.editor = new Quill(editor, {theme: 'snow'});
+    var toolbarOptions = [['bold', 'italic'], ['link', 'image']];
+
+    this.editor = new Quill(editor, {
+      modules: {
+        toolbar: toolbar
+      },
+      theme: 'snow'
+    });
     this.editor.on('editor-change', (eventName, ...args) => {
        this.onChange(this.editor.getContents());
     });
