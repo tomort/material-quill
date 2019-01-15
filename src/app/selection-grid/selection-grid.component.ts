@@ -1,69 +1,77 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, Input, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { MatTableDataSource, MatSort } from '@angular/material';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import { BehaviorSubject} from 'rxjs';
+import { ColumnDefinition } from './ColumnDefinition';
 
 @Component({
   selector: 'selection-grid',
   templateUrl: './selection-grid.component.html',
   styleUrls: ['./selection-grid.component.css']
 })
-export class SelectionGridComponent {
+export class SelectionGridComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('selectionTable') sortLeft: MatSort;
+  @ViewChild('availableTable') sortRight: MatSort;
   
-  @ViewChild('table1') table1: MatTable<PeriodicElement>;
-  @ViewChild('table2') table2: MatTable<PeriodicElement>;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  ELEMENT_DATA: PeriodicElement[] = [
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+  constructor() {}
+  
+  ngOnInit(): void {
+    this.dsSelection = new MatTableDataSource(this.selectionList.getValue());
+    this.dsAvailable = new MatTableDataSource(this.availableList.getValue());
 
-ELEMENT_DATA2: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+    this.dsSelection.sort = this.sortLeft;
+    this.dsAvailable.sort = this.sortRight;
+  }
+  
+  ngAfterViewInit(): void {
+    // this.dsSelection.sort = this.sortLeft;
+    // this.dsAvailable.sort = this.sortRight;
+  }
 
-];
-  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  dataSource2 = new MatTableDataSource(this.ELEMENT_DATA2);
+  @Input()
+  public disableSort: Boolean = false;
 
-    drop(event: CdkDragDrop<PeriodicElement[]>) {
-      console.log("event.previousContainer =>", event.previousContainer);
-      console.log("event.container =>", event.container)
-      console.log("event.container.data =>", event.container.data)
-      console.log("event.previousIndex =>", event.previousIndex);
-      console.log("event.currentIndex =>", event.currentIndex);
-      
-      const previousIndex = event.previousContainer.data.findIndex(i => (event.item.data === i));
+  @Input()
+  public selectionList:BehaviorSubject<any[]>;
+  
+  @Input()
+  public availableList:BehaviorSubject<any[]>;
 
-      if (event.previousContainer === event.container) {
-      
+  private dsSelection:MatTableDataSource<any>;
+  private dsAvailable:MatTableDataSource<any>;
+
+  @Input()
+  public selectionColumnDef?: ColumnDefinition[] = [{columnDef: 'name', header: 'Name', cell: (row: any) => `${row.name}`, disableSort: false}];
+  public availableColumnDef?: ColumnDefinition[] = [{columnDef: 'name', header: 'Name', cell: (row: any) => `${row.name}`, disableSort: false}];
+  
+  private selectionDisplayedColumns(): string[] {
+     return this.selectionColumnDef.map(x => x.columnDef);
+  };
+
+  private availableDisplayedColumns(): string[] {
+    return this.availableColumnDef.map(x => x.columnDef);
+  };
+
+  getDisableSort(column:any): Boolean {
+    if (column.hasOwnProperty('disableSort')) {
+      return column['disableSort'];
+    }
+    return this.disableSort;
+  }
+  drop(event: CdkDragDrop<any[]>) {
+     
+    const previousIndex = event.previousContainer.data.findIndex(i => (event.item.data === i));
+
+    if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, previousIndex, event.currentIndex);
     } else {
-      
-
       transferArrayItem(event.previousContainer.data,
                         event.container.data,
                         previousIndex,
                         event.currentIndex);
     }
-    // this.table1.renderRows();
-    // this.table2.renderRows();
-    //this.dataSource = new MatTableDataSource(this.dataSource.data);
-    //this.dataSource2 = new MatTableDataSource(this.dataSource2.data);
-
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-    this.dataSource2 = new MatTableDataSource(this.ELEMENT_DATA2);
-
+    this.dsSelection._updateChangeSubscription();
+    this.dsAvailable._updateChangeSubscription();
   }
 }

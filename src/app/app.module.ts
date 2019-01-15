@@ -4,13 +4,14 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
-import { MatFormFieldModule, MatTableModule } from '@angular/material';
+import { MatFormFieldModule, MatTableModule, MatSortModule } from '@angular/material';
 import { RichEditorComponent } from './rte/rich-editor.component';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SelectionGridComponent } from './selection-grid/selection-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     QuillModule,
     MatFormFieldModule,
     MatTableModule,
+    MatSortModule,
+    CdkTableModule,
     DragDropModule,
     FlexLayoutModule
   ],

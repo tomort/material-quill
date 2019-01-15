@@ -1,62 +1,33 @@
 
 <div style="width: 100%;" fxLayout="row" fxLayoutGap="10px">
 <div fxFlex="50%">
-  <mat-table [dataSource]="dataSource"
-  class="mat-elevation-z8" cdkDropList #table1="cdkDropList"
-  [cdkDropListData]="ELEMENT_DATA" [cdkDropListConnectedTo]="[table2]"
+  <mat-table matSort [dataSource]="dsSelection"
+  class="mat-elevation-z8" cdkDropList #selectionTable="cdkDropList" #selectionTable="matSort"
+  [cdkDropListData]="selectionList.getValue()" [cdkDropListConnectedTo]="[availableTable]"
   (cdkDropListDropped)="drop($event)">
 
-  <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="weight">
-    <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+  <ng-container *ngFor="let column of selectionColumnDef" [cdkColumnDef]="column.columnDef">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="getDisableSort(column)" >{{ column.header }}</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag [cdkDragData]="row"></mat-row>
+  <mat-header-row *matHeaderRowDef="selectionDisplayedColumns()"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: selectionDisplayedColumns()" cdkDrag [cdkDragData]="row"></mat-row>
 </mat-table>
 </div>
 <div fxFlex="50%">
-<mat-table [dataSource]="dataSource2" class="mat-elevation-z8"
-  cdkDropList #table2="cdkDropList" [cdkDropListData]="ELEMENT_DATA2"
-  [cdkDropListConnectedTo]="[table1]" (cdkDropListDropped)="drop($event)">
+<mat-table matSort [dataSource]="dsAvailable" class="mat-elevation-z8"
+  cdkDropList #availableTable="cdkDropList" #availableTable="matSort"
+   [cdkDropListData]="availableList.getValue()"
+  [cdkDropListConnectedTo]="[selectionTable]" (cdkDropListDropped)="drop($event)">
 
-  <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="weight">
-    <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-  </ng-container>
-  
-  <ng-container matColumnDef="symbol">
-    <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+  <ng-container *ngFor="let column of availableColumnDef" [cdkColumnDef]="column.columnDef">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="disableSort" >{{ column.header }}</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag [cdkDragData]="row"></mat-row>
+  <mat-header-row *matHeaderRowDef="availableDisplayedColumns()"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: availableDisplayedColumns()" cdkDrag [cdkDragData]="row"></mat-row>
 
 </mat-table>
 </div>
