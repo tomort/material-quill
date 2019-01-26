@@ -4,15 +4,18 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
-import { MatFormFieldModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { RichEditorComponent } from './rte/rich-editor.component';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ProjectNameComponent } from './commons/attributes/predefined/project/project-name/project-name.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RichEditorComponent
+    RichEditorComponent,
+    ProjectNameComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +24,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     QuillModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
     
   ],
   providers: [],
