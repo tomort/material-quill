@@ -1,34 +1,41 @@
+<div style="width: 100%;height: 400px" fxLayout="row" fxLayoutGap="10px">
+  <div fxFlex="50%" flex class="top">
+    <div [ngClass]="{'content': includePaginator, 'contentNoPag': !includePaginator}">
+      <mat-table matSort [dataSource]="dsSelection" cdkDropList #selectionTable="cdkDropList" #selectionTable="matSort"
+        [cdkDropListData]="selectionList.getValue()" [cdkDropListConnectedTo]="[availableTable]" (cdkDropListDropped)="drop($event)">
 
-<div style="width: 100%;" fxLayout="row" fxLayoutGap="10px">
-<div fxFlex="50%">
-  <mat-table matSort [dataSource]="dsSelection"
-  class="mat-elevation-z8" cdkDropList #selectionTable="cdkDropList" #selectionTable="matSort"
-  [cdkDropListData]="selectionList.getValue()" [cdkDropListConnectedTo]="[availableTable]"
-  (cdkDropListDropped)="drop($event)">
+        <ng-container *ngFor="let column of selectionColumnDef" [cdkColumnDef]="column.columnDef">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="getDisableSort(column)">{{ column.header }}</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">{{getColumnDescription(column, row)}}</mat-cell>
+        </ng-container>
 
-  <ng-container *ngFor="let column of selectionColumnDef" [cdkColumnDef]="column.columnDef">
-    <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="getDisableSort(column)" >{{ column.header }}</mat-header-cell>
-    <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
-  </ng-container>
+        <mat-header-row *matHeaderRowDef="selectionDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: selectionDisplayedColumns()" cdkDrag [cdkDragData]="row"></mat-row>
+      </mat-table>
 
-  <mat-header-row *matHeaderRowDef="selectionDisplayedColumns()"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: selectionDisplayedColumns()" cdkDrag [cdkDragData]="row"></mat-row>
-</mat-table>
-</div>
-<div fxFlex="50%">
-<mat-table matSort [dataSource]="dsAvailable" class="mat-elevation-z8"
-  cdkDropList #availableTable="cdkDropList" #availableTable="matSort"
-   [cdkDropListData]="availableList.getValue()"
-  [cdkDropListConnectedTo]="[selectionTable]" (cdkDropListDropped)="drop($event)">
+      <div *ngIf="includePaginator" class="mat-paginator-sticky">
+        <mat-paginator #pagSelection [pageSize]="10" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+      </div>
+    </div>
+  </div>
 
-  <ng-container *ngFor="let column of availableColumnDef" [cdkColumnDef]="column.columnDef">
-    <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="disableSort" >{{ column.header }}</mat-header-cell>
-    <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
-  </ng-container>
+  <div fxFlex="50%" flex class="top">
+    <div [ngClass]="{'content': includePaginator, 'contentNoPag': !includePaginator}">
+      <mat-table matSort [dataSource]="dsAvailable" cdkDropList #availableTable="cdkDropList" #availableTable="matSort"
+        [cdkDropListData]="_availableList.getValue()" [cdkDropListConnectedTo]="[selectionTable]" (cdkDropListDropped)="drop($event)">
 
-  <mat-header-row *matHeaderRowDef="availableDisplayedColumns()"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: availableDisplayedColumns()" cdkDrag [cdkDragData]="row"></mat-row>
+        <ng-container *ngFor="let column of availableColumnDef" [cdkColumnDef]="column.columnDef">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header [disabled]="disableSort">{{ column.header }}</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">{{getColumnDescription(column, row)}}</mat-cell>
+        </ng-container>
 
-</mat-table>
-</div>
+        <mat-header-row *matHeaderRowDef="availableDisplayedColumns(); sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: availableDisplayedColumns()" cdkDrag [cdkDragData]="row"></mat-row>
+      </mat-table>
+
+      <div *ngIf="includePaginator" class="mat-paginator-sticky">
+        <mat-paginator #pagAvailable [pageSize]="10" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+      </div>
+    </div>
+  </div>
 </div>

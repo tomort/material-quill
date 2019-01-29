@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
-import { MatFormFieldModule, MatTableModule, MatSortModule } from '@angular/material';
+import { MatFormFieldModule, MatTableModule, MatSortModule, MatPaginator, MatPaginatorModule, MatDividerModule } from '@angular/material';
 import { RichEditorComponent } from './rte/rich-editor.component';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -29,6 +29,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatFormFieldModule,
     MatTableModule,
     MatSortModule,
+    MatPaginatorModule,
+    MatDividerModule,
     CdkTableModule,
     DragDropModule,
     FlexLayoutModule

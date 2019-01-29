@@ -45,9 +45,39 @@
 </div> -->
 
 
-<selection-grid
+<selection-grid 
   [selectionColumnDef]="selectionColumnDef"
-  [selectionList]="selectionList"
-  [availableList]="availableList"
   [disableSort]="true"
+  [dataProvider]="dataProvider"
+  [(selectionList)]="selectionList"
+  [includePaginator]="true"
   ></selection-grid>
+
+<br>
+  <selection-grid 
+  [selectionColumnDef]="selectionColumnDef"
+  [disableSort]="true"
+  [dataProvider]="dataProvider"
+  [(selectionList)]="selectionList"
+  [includePaginator]="false"
+  ></selection-grid>
+
+  <div *ngIf="selectionList">
+    {{getJson()}}
+</div>
+
+<!-- <div>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="dsSelection"
+    >
+  
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="['name']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['name']" ></mat-row>
+  </mat-table>
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+  </div> -->

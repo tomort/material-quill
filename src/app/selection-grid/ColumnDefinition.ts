@@ -3,7 +3,7 @@
  *
  *  @param columnDef ColumnDefinition
  *  @param header Headertext
- *  @param cell Zellemdefinition
+ *  @param cell Zellendefinition
  *  @param disableSort Spalte sortierbar
  * 
  * @class ColumnDefinition
