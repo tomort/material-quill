@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { ColumnDefinition } from './selection-grid/ColumnDefinition';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatCheckboxChange } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -56,6 +56,8 @@ export class AppComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  binding: String;
+
   constructor() {
      this.myGroup = new FormGroup({
       control: new FormControl()
@@ -68,6 +70,12 @@ export class AppComponent implements OnInit {
 
   getJson() {
     return JSON.stringify(this.selectionList.getValue());
+  }
+
+  @ViewChild('projectName') projectName;
+  
+  onChange(event:MatCheckboxChange) {
+    this.projectName.enableVaidation = event.checked;
   }
 }
 

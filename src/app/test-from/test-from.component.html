@@ -1,0 +1,8 @@
+
+<form [formGroup]="testForm">
+  <project-name formControlName="projectNameField" placeholder="Projektname"
+  enableVaidation = {{model.enableValidator}}></project-name>
+
+  <mat-checkbox formControlName="checkField" (change)="onChange($event)">Validator</mat-checkbox>
+</form>
+

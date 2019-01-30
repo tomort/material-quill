@@ -22,15 +22,14 @@ export class ProjectNameComponent implements ControlValueAccessor  {
   @Input()
   value?: String;
 
-  @Input()
+  
   private _enableVaidation: Boolean = true;
-  public get enableVaidation(): Boolean {
-    return this._enableVaidation;
-  }
-  public set enableVaidation(value: Boolean) {
-    this._enableVaidation = value;
-    if (value){
-      this.nameTextInput.setValidators([Validators.required, Validators.minLength(this.maxLength)]);
+
+  @Input()
+  public set enableVaidation(enable: String) {
+    this._enableVaidation = enable != 'false';
+    if (this._enableVaidation){
+      this.nameTextInput.setValidators([Validators.required, Validators.maxLength(this.maxLength)]);
     }
     else {
       this.nameTextInput.setValidators(null);
@@ -69,6 +68,11 @@ export class ProjectNameComponent implements ControlValueAccessor  {
   }
 
   getErrorMessage(): String {
-    return this.nameTextInput.hasError('required') ? 'Eingabe erforderlich' : '';
+    if (this.nameTextInput.hasError('required'))
+      return 'Eingabe erforderlich';
+    if (this.nameTextInput.hasError('maxlength'))
+      return 'Eingabe maximal ' + this.maxLength;
+
+    return '';
   }
 }
