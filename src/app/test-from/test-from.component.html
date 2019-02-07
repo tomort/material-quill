@@ -4,5 +4,15 @@
   enableVaidation = {{model.enableValidator}}></project-name>
 
   <mat-checkbox formControlName="checkField" (change)="onChange($event)">Validator</mat-checkbox>
+  <mat-form-field>
+    <input  matInput placeholder="Test" formControlName="testInput">
+</mat-form-field>
 </form>
+
+<div>
+{{model.enableValidator}}
+<br>
+{{model.projectName}}
+
+</div>
 

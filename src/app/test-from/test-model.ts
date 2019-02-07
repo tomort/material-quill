@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class TestModel
 {
-    projectName:String;
+    projectName:String = 'Hallo';
     enableValidator:Boolean = true;
 
     constructor() {
